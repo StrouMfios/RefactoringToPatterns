@@ -1,32 +1,57 @@
-public interface Product{};
+public interface IProduct{};
 
+public class ConcreteProduct:IProduct{
+	public ConcreteProduct(){
+		Console.WriteLine("Method from ConcreteProduct A");
+	}
+}
+
+public class ConcreteProductB:IProduct{
+	public ConcreteProductB(){
+		Console.WriteLine("Method from ConcreteProduct B");
+	}
+}
 
 public abstract class Creator{
 
 	public void AnOperation(){
-		Product product = FactoryMethod();
+		IProduct product = FactoryMethod();
 		Console.WriteLine("Method from abstract class");
 	}
 	
-	protected abstract Product FactoryMethod();
-}
-
-public class ConcreteProduct:Product{
-	public ConcreteProduct(){
-		Console.WriteLine("Method from ConcreteProduct");
-	}
+	protected abstract IProduct FactoryMethod();
 }
 
 public class ConcreteCreator:Creator{
 
-	protected override Product FactoryMethod(){
-		return new ConcreteProduct();
+	private string _productType;
+	
+	public ConcreteCreator(string productType){
+		_productType = productType;
+	}
+
+	protected override IProduct FactoryMethod(){
+		
+		switch (_productType)
+		{
+			case "A":
+				return new ConcreteProduct();
+			case "B":
+				return new ConcreteProductB();
+		}
+		
+		return null;
 	}
 }
 
 
 void Main()
 {
-	Creator creator = new ConcreteCreator();
+	Creator creator = new ConcreteCreator("B");
+	creator.AnOperation();
+	Console.WriteLine("-------------");
+	creator = new ConcreteCreator("A");
 	creator.AnOperation();
 }
+
+// Define other methods and classes here
