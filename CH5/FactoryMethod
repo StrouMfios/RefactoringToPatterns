@@ -1,0 +1,32 @@
+public interface Product{};
+
+
+public abstract class Creator{
+
+	public void AnOperation(){
+		Product product = FactoryMethod();
+		Console.WriteLine("Method from abstract class");
+	}
+	
+	protected abstract Product FactoryMethod();
+}
+
+public class ConcreteProduct:Product{
+	public ConcreteProduct(){
+		Console.WriteLine("Method from ConcreteProduct");
+	}
+}
+
+public class ConcreteCreator:Creator{
+
+	protected override Product FactoryMethod(){
+		return new ConcreteProduct();
+	}
+}
+
+
+void Main()
+{
+	Creator creator = new ConcreteCreator();
+	creator.AnOperation();
+}
